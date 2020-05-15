@@ -1,0 +1,4 @@
+with open("/var/log/daemon.log", "r") as fichier: # With permet de garder le fichier ouvert pour faire plusieurs actions
+  for ligne in fichier.readlines():               # Boucle lisant les lignes du fichier une par une
+    if "error" in ligne:                          
+      print(ligne)                                # Si le mot "error" est présent, la ligne est affichée
