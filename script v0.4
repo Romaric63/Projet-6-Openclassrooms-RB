@@ -1,0 +1,13 @@
+import glob
+import os
+import json
+
+with open("repertoire.json") as r:
+  repertoire = json.load(r)
+  os.chdir(repertoire)
+  for fichier in glob.glob("*"):
+    if os.path.isfile(fichier):
+      with open(fichier, "r") as fichier_ouvert:
+        for ligne in fichier_ouvert.readlines():
+          if "error" in ligne:
+            print(ligne)
