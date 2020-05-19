@@ -1,13 +1,14 @@
-import glob                                       # Importe le module glob
-import os                                         # Importe le module os
-import json                                       # Importe le module json
+import glob                                         # Importe le module glob
+import os                                           # Importe le module os
+import json                                         # Importe le module json
 
-with open("repertoire.json") as r:                # Ouverture du fichier repertoire.json contenant le nom du répertoire
-  repertoire = json.load(r)                       # Récupération du contenu dans la variable repertoire
-  os.chdir(repertoire)                            # On se déplace dans le répertoire
-  for fichier in glob.glob("*"):                  # Pour chaque fichier présent dans le répertoire :
-    if os.path.isfile(fichier):                   # Si le fichier est bien un fichier (pas un répertoire):
-      with open(fichier, "r") as fichier_ouvert:  # Ouverture du fichier
-        for ligne in fichier_ouvert.readlines():  # Boucle lisant les lignes du fichier une par une
-          if "error" in ligne:
-            print(ligne)                          # Si le mot "error" est présent, la ligne est affichée
+with open("repertoire.json") as r:                  # Ouverture du fichier repertoire.json contenant les noms des répertoires
+  data = json.load(r)                               # Récupération du contenu sous forme de liste dans la variable data
+  for repertoire in data:                           # Pour chaque répertoire présent dans data :
+    os.chdir(repertoire)                            # On se déplace dans le répertoire
+    for fichier in glob.glob("*"):                  # Pour chaque fichier présent dans le répertoire :
+      if os.path.isfile(fichier):                   # Si le fichier est bien un fichier (pas un répertoire) :
+        with open(fichier, "r") as fichier_ouvert:  # Ouverture du fichier
+          for ligne in fichier_ouvert.readlines():  # Boucle lisant les lignes du fichier une par une
+            if "error" in ligne:
+              print(ligne)                          # Si le mot "error" est présent, la ligne est affichée
