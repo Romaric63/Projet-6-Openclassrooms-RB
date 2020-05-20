@@ -10,9 +10,9 @@ import json                                                 # Importe le module 
 fichier_json = raw_input("Tapez le nom du fichier JSON : ") # Demande à l'utilisateur le nom du fichier JSON
 mot_cle = raw_input("Quel mot rechercher ? : ")             # Demande à l'utilisateur le mot clé à rechercher
 
-with open(fichier_json) as r:                               # Ouverture du fichier JSON contenant les noms des répertoires
-  data = json.load(r)                                       # Récupération du contenu sous forme de liste dans la variable data
-  for repertoire in data:                                   # Pour chaque répertoire présent dans data :
+with open(fichier_json) as fichier_config:                  # Ouverture du fichier JSON contenant les noms des répertoires
+  liste_repertoire = json.load(fichier_config)              # Récupération du contenu sous forme de liste dans la variable liste_repertoire
+  for repertoire in liste_repertoire:                       # Pour chaque répertoire présent dans liste_repertoire :
     os.chdir(repertoire)                                    # On se déplace dans le répertoire
     for fichier in glob.glob("*"):                          # Pour chaque fichier présent dans le répertoire :
       if os.path.isfile(fichier):                           # Si le fichier est bien un fichier (pas un répertoire) :
