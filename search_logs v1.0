@@ -1,0 +1,51 @@
+# Version 1.0
+# Date : 22/05/2020
+# Auteur : Romaric Béraud
+# Ce script a pour but de rechercher des mots clés dans des fichiers (exemple : logs)
+
+# Importe le module glob
+import glob
+# Importe le module os
+import os
+# Importe le module json
+import json
+
+# Demande à l'utilisateur le nom du fichier JSON
+fichier_json = raw_input("Tapez le nom du fichier JSON : ")
+# Demande à l'utilisateur le mot clé à rechercher
+mot_cle = raw_input("Quel mot rechercher ? : ")
+# Demande à l'utilisateur s'il souhaite respecter la casse
+casse = raw_input("Tapez C si vous souhaitez respecter la casse : ")
+# Initialisation de la variable nombre_lignes
+nombre_lignes = 0
+
+# Ouverture du fichier JSON contenant les noms des répertoires
+with open(fichier_json) as fichier_config:
+    # Récupération du contenu sous forme de liste dans la variable liste_repertoire
+    liste_repertoire = json.load(fichier_config)
+    # Pour chaque répertoire présent dans liste_repertoire :
+    for repertoire in liste_repertoire:
+        # On se déplace dans le répertoire
+        os.chdir(repertoire)
+        if os.path.isfile("resultat_logs"):
+            os.remove("resultat_logs")
+        # Pour chaque fichier présent dans le répertoire :
+        for fichier in glob.glob("*"):
+            # Si le fichier est bien un fichier (pas un répertoire) :
+            if os.path.isfile(fichier):
+                # Ouverture du fichier
+                with open(fichier, "r") as fichier_ouvert:
+                    # Boucle lisant les lignes du fichier une par une
+                    for ligne in fichier_ouvert.readlines():
+                        if casse == "C":
+                            if mot_cle in ligne:
+                                with open("resultat_logs", "a") as fichier_resultat:
+                                    fichier_resultat.write(ligne)
+                                    nombre_lignes = nombre_lignes + 1
+                        else:
+                            if mot_cle in ligne or mot_cle.upper() in ligne or mot_cle.lower() in ligne:
+                                with open("resultat_logs", "a") as fichier_resultat:
+                                    fichier_resultat.write(ligne)
+                                    nombre_lignes = nombre_lignes + 1
+        print "Les",nombre_lignes,"lignes comprennant ce mot dans les fichiers sont presentes dans le fichier resultat_logs du repertoire",repertoire,"\n"
+        nombre_lignes = 0
