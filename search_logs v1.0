@@ -51,8 +51,8 @@ with open(fichier_json) as fichier_config:
                                     nombre_lignes = nombre_lignes + 1
                         # Si l'utilisateur a choisi de ne pas respecter la casse :            
                         else:
-                            # Si le mot clé exact ou tout en majuscules ou tout en minuscules se trouve dans cette ligne :
-                            if mot_cle in ligne or mot_cle.upper() in ligne or mot_cle.lower() in ligne:
+                            # Si le mot clé tout en minuscules se trouve dans cette ligne, elle même, en minuscules :
+                            if mot_cle.lower() in ligne.lower():
                                 with open("resultat_logs", "a") as fichier_resultat:
                                     fichier_resultat.write(ligne)
                                     nombre_lignes = nombre_lignes + 1
