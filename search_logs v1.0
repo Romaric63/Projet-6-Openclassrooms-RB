@@ -16,7 +16,7 @@ fichier_json = raw_input("Tapez le nom du fichier JSON : ")
 mot_cle = raw_input("Quel mot rechercher ? : ")
 # Demande à l'utilisateur s'il souhaite respecter la casse
 casse = raw_input("Tapez C si vous souhaitez respecter la casse : ")
-# Initialisation de la variable nombre_lignes
+# Initialisation de la variable nombre_lignes comptant les lignes trouvées avec le mot clé dans les fichiers d'un répertoire
 nombre_lignes = 0
 
 # Ouverture du fichier JSON contenant les noms des répertoires
@@ -27,7 +27,9 @@ with open(fichier_json) as fichier_config:
     for repertoire in liste_repertoire:
         # On se déplace dans le répertoire
         os.chdir(repertoire)
+        # Si le fichier resultat_logs est déjà présent dans le répertoire :
         if os.path.isfile("resultat_logs"):
+            # On le supprime car on ne souhaite pas réécrire à la suite
             os.remove("resultat_logs")
         # Pour chaque fichier présent dans le répertoire :
         for fichier in glob.glob("*"):
@@ -37,15 +39,24 @@ with open(fichier_json) as fichier_config:
                 with open(fichier, "r") as fichier_ouvert:
                     # Boucle lisant les lignes du fichier une par une
                     for ligne in fichier_ouvert.readlines():
+                        # Si l'utilisateur a choisi de respecter la casse :
                         if casse == "C":
+                            # Si le mot clé exact se trouve dans cette ligne :
                             if mot_cle in ligne:
+                                # On ouvre le fichier resultat_logs en écriture avec "a" car cela permet de ne pas réécrire par dessus
                                 with open("resultat_logs", "a") as fichier_resultat:
+                                    # On écrit la ligne dans le fichier résultat
                                     fichier_resultat.write(ligne)
+                                    # On ajoute 1 au compteur de lignes
                                     nombre_lignes = nombre_lignes + 1
+                        # Si l'utilisateur a choisi de ne pas respecter la casse :            
                         else:
+                            # Si le mot clé exact ou tout en majuscules ou tout en minuscules se trouve dans cette ligne :
                             if mot_cle in ligne or mot_cle.upper() in ligne or mot_cle.lower() in ligne:
                                 with open("resultat_logs", "a") as fichier_resultat:
                                     fichier_resultat.write(ligne)
                                     nombre_lignes = nombre_lignes + 1
+        # Informe l'utilisateur du nombre de lignes comprennant le mot clé dans les fichiers d'un répertoire et lui donne le chemin du fichier résultat
         print "Les",nombre_lignes,"lignes comprennant ce mot dans les fichiers sont presentes dans le fichier resultat_logs du repertoire",repertoire,"\n"
+        # Le compteur de lignes doit être remis à 0 afin de pouvoir compter pour les autres répertoires
         nombre_lignes = 0
