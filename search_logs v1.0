@@ -41,7 +41,7 @@ with open(fichier_json) as fichier_config:
                     for ligne in fichier_ouvert.readlines():
                         # Si l'utilisateur a choisi de respecter la casse :
                         if casse == "C":
-                            # Si le mot clé exact se trouve dans cette ligne :
+                            # Si le mot clé respectant la casse se trouve dans cette ligne :
                             if mot_cle in ligne:
                                 # On ouvre le fichier resultat_logs en écriture avec "a" car cela permet de ne pas réécrire par dessus
                                 with open("resultat_logs", "a") as fichier_resultat:
