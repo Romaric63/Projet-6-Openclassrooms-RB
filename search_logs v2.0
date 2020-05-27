@@ -48,21 +48,33 @@ with open(fichier_json) as fichier_config:
                     for ligne in fichier_ouvert.readlines():
                         # Pour chaque mot clé de la liste :
                             for mot_cle in liste_mot_cle:
+                                # Si on respecte la casse :
                                 if casse == "C":
+                                    # Si on veut le mot exact :
                                     if espace == "E":
+                                        # Condition pour rechercher le mot exact en respectant la casse
                                         if mot_cle.rjust(len(mot_cle)+1).ljust(len(mot_cle)+2) in ligne:
+                                            # Appel de la fonction collecte_resultat()
                                             collecte_resultat()
+                                            # Compteur du nombre de lignes
                                             nombre_lignes = nombre_lignes + 1
+                                    # Si on ne veut pas le mot exact :
                                     else:
+                                        # Condition pour rechercher le mot en respectant la casse
                                         if mot_cle in ligne:
                                             collecte_resultat()
                                             nombre_lignes = nombre_lignes + 1
+                                # Si on ne respecte pas la casse :
                                 else:
+                                    # Si on veut le mot exact :
                                     if espace == "E":
+                                        # Condition pour rechercher le mot exact
                                         if mot_cle.lower().rjust(len(mot_cle)+1).ljust(len(mot_cle)+2) in ligne.lower():
                                             collecte_resultat()
                                             nombre_lignes = nombre_lignes + 1
+                                    # Si on ne veut pas le mot exact
                                     else:
+                                        # Condition pour rechercher le mot
                                         if mot_cle.lower() in ligne.lower():
                                             collecte_resultat()
                                             nombre_lignes = nombre_lignes + 1
