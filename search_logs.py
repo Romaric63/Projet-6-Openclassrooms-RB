@@ -1,5 +1,5 @@
 # Version 2.0
-# Date : 25/05/2020
+# Date : 27/05/2020
 # Auteur : Romaric Béraud
 # Ce script a pour but de rechercher des mots clés dans des fichiers (exemple : logs)
 
